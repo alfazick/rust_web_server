@@ -16,7 +16,7 @@ pub async  fn read_all_tasks(app_state: web::Data<AppState>) -> impl Responder {
 
 pub async fn create_task(app_state:web::Data<AppState>, task: web::Json<Task>) -> impl Responder {
     let mut db: MutexGuard<Database> = app_state.db.lock().unwrap();
-    db.update(task.into_inner());
+    db.insert(task.into_inner());
     let _ = db.save_to_file();
     HttpResponse::Ok().finish()
 }
